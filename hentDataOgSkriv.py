@@ -19,7 +19,7 @@ driver = webdriver.Chrome(options=options,service=Service(ChromeDriverManager().
 # forhindrer at chrome lukker seg med en gang
 
 
-url = 'https://www.proff.no/regnskap/searis-as/trondheim/faglig-vitenskapelig-og-teknisk-virksomhet/IGIP94N10N7'
+url = 'https://www.proff.no/regnskap/picterus-as/trondheim/faglig-vitenskapelig-og-teknisk-virksomhet/IF5441310N7'
 driver.get(url)
 # setter en ventetid på 10 sekunder som Selenium venter før det gir opp å finne et element som ikke er umiddelbart tilgjengelig.
 # Uten dette kan koden feile hvis den prøver å finne elementer som ikke har lastet inn ennå.
@@ -58,13 +58,13 @@ def hent_data_resultat(nøkkeltall):
                 try:
                     knapp = driver.find_element(By.XPATH, knapp_xpath)
                     if 'Mui-disabled' in knapp.get_attribute('class'):
-                        print("Knappen er ikke trykkbar, går tilbake.")
+                        print('---> X')
                         fram_knapp_xpath = "//button[contains(@class,'MuiIconButton-root') and @aria-label='Latest years']"
                         while True:
                             try:
                                 fram_knapp = driver.find_element(By.XPATH, fram_knapp_xpath)
                                 if 'Mui-disabled' in fram_knapp.get_attribute('class'):
-                                    print("Knappen er ikke trykkbar, avslutter løkken.")
+                                    print('<--- X')
                                     break
                                 fram_knapp.click()
                                 time.sleep(1)  # Vent litt for at siden skal laste etter klikk
@@ -101,13 +101,13 @@ def hent_data_balanse(nøkkeltall):
                 try:
                     knapp = driver.find_element(By.XPATH, knapp_xpath)
                     if 'Mui-disabled' in knapp.get_attribute('class'):
-                        print("Knappen er ikke trykkbar, går tilbake.")
+                        print('---> X')
                         fram_knapp_xpath = '//*[@id="scrollable-auto-tabpanel-1"]/div/div[1]/div/div/div[4]/div[3]/table/thead/tr/th[2]/button'
                         while True:
                             try:
                                 fram_knapp = driver.find_element(By.XPATH, fram_knapp_xpath)
                                 if 'Mui-disabled' in fram_knapp.get_attribute('class'):
-                                    print("Knappen er ikke trykkbar, avslutter løkken.")
+                                    print('<--- X')
                                     break
                                 fram_knapp.click()
                                 time.sleep(1)  # Vent litt for at siden skal laste etter klikk
@@ -145,8 +145,8 @@ for i in range(len(driftsresultat)):
     nedskrivninger_i = nedskrivninger[i]
     tall = int(driftsresultat_i) + int(avskrivninger_i) + int(nedskrivninger_i)
     EBITDA.append(str(tall))
-investeringer = hent_data_balanse(g)
-egenkapital = hent_data_balanse(f)
+investeringer = hent_data_balanse(f)
+egenkapital = hent_data_balanse(g)
     
 print(driftsinntekter)
 print(salgsinntekter)
@@ -159,16 +159,19 @@ print(egenkapital)
 
 driver.quit()
 
+rad = 1   
 
 def skriv_til_excel(lager):
-    rad = 110   
+    global rad  
     for indeks, tall in enumerate(lager):
-        kolonnebokstav = chr(78 - indeks)  # 66 er B i ASCII-tabellen
+        kolonnebokstav = chr(73 - indeks)  # 66 er B i ASCII-tabellen
         ws[f'{kolonnebokstav}{rad}'] = tall  # Skriver til excel
-        rad += 1
     wb.save(filnavn)
+    rad += 2
 
-# skriv_til_excel(driftsinntekter)
-# skriv_til_excel(salgsinntekter)
-# skriv_til_excel(EBITDA)
+skriv_til_excel(driftsinntekter)
+skriv_til_excel(salgsinntekter)
+skriv_til_excel(EBITDA)
+skriv_til_excel(investeringer)
+skriv_til_excel(egenkapital)
 
