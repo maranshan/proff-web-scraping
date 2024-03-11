@@ -14,4 +14,6 @@ hentKunRelevant henter 'Sum driftsinntekter', 'Sum salgsinntekter', 'Ordinære a
 Videre legger den sammen 'Ordinære avskrivninger', 'Nedskrivning' og 'Driftsresultat' for å finne EBITDA
 Deretter skriver den til fil årlig driftsinntekter, salgsinntekter og EBITDA til excel
 
+NB! Lagring til fil vil kun funke dersom fila ikke er åpen
+
 *KUN MENT SOM ET PROSJEKT, OG IKKE EGNET FOR PROFESJONELT BRUK*
