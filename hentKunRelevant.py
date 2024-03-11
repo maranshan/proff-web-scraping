@@ -7,6 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import pandas as pd
 from openpyxl import Workbook, load_workbook
+import os
+
 
 filnavn = 'testWebScraping.xlsx'
 wb = load_workbook(filnavn) #workbook
@@ -19,7 +21,7 @@ driver = webdriver.Chrome(options=options,service=Service(ChromeDriverManager().
 # forhindrer at chrome lukker seg med en gang
 
 
-url = 'https://proff.no/regnskap/searis-as/trondheim/faglig-vitenskapelig-og-teknisk-virksomhet/IGIP94N10N7'
+url = 'https://www.proff.no/regnskap/vorn-equipment-as/stavanger/engroshandel-annet/IGI7GKN10N6'
 driver.get(url)
 # setter en ventetid på 10 sekunder som Selenium venter før det gir opp å finne et element som ikke er umiddelbart tilgjengelig.
 # Uten dette kan koden feile hvis den prøver å finne elementer som ikke har lastet inn ennå.
@@ -85,7 +87,6 @@ def hent_data():
     return data_lager
 
 data = hent_data()
-print(data)
 driver.quit()
 
 # rad = 1 
@@ -136,7 +137,6 @@ skriv_til_excel(EBITDA)
 skriv_til_excel(investeringer)
 skriv_til_excel(egenkapital)
 
-
-
-
+excel_fil_path = os.path.abspath(filnavn)
+os.system(f"open '{excel_fil_path}'")
 
