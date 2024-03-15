@@ -9,6 +9,7 @@ import pandas as pd
 from openpyxl import Workbook, load_workbook
 import os
 
+url = input("Lim inn URL: ")
 
 filnavn = 'testWebScraping.xlsx'
 wb = load_workbook(filnavn) #workbook
@@ -21,7 +22,6 @@ driver = webdriver.Chrome(options=options,service=Service(ChromeDriverManager().
 # forhindrer at chrome lukker seg med en gang
 
 
-url = 'https://www.proff.no/regnskap/vorn-equipment-as/stavanger/engroshandel-annet/IGI7GKN10N6'
 driver.get(url)
 # setter en ventetid på 10 sekunder som Selenium venter før det gir opp å finne et element som ikke er umiddelbart tilgjengelig.
 # Uten dette kan koden feile hvis den prøver å finne elementer som ikke har lastet inn ennå.
@@ -89,16 +89,6 @@ def hent_data():
 data = hent_data()
 driver.quit()
 
-# rad = 1 
-# for nøkkeltall, tall_liste in data.items():
-#     i = 0  
-#     for tall in tall_liste:
-#         kolonnebokstav = chr(max(66, 77 - i))
-#         ws[f'{kolonnebokstav}{rad}'] = tall
-#         i += 1  
-#     wb.save(filnavn)
-#     rad += 1
-
 a,b,c,d,e,f,g = 'Sum driftsinntekter', 'Sum salgsinntekter', 'Ordinære avskrivninger', 'Nedskrivning', 'Driftsresultat', 'Sum investeringer', 'Sum egenkapital'
 
 driftsinntekter = data[a]
@@ -137,6 +127,7 @@ skriv_til_excel(EBITDA)
 skriv_til_excel(investeringer)
 skriv_til_excel(egenkapital)
 
+#Åpner automatisk opp excel fila
 excel_fil_path = os.path.abspath(filnavn)
 os.system(f"open '{excel_fil_path}'")
 
